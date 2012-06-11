@@ -11,6 +11,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="src" output="target/seo-on-1.0-SNAPSHOT/WEB-INF/classes" path="target/generated-sources/apt">
 		<attributes>
 			<attribute name="optional" value="true"/>

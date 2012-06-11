@@ -19,7 +19,7 @@
 
 		<!-- GAE properties -->
 		<gae.version>1.6.6</gae.version>
-		<gae.home>C:/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home>
+		<gae.home>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home>
 		<!-- <gae.home>${user.home}/.m2/repository/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}</gae.home> -->
 		<gae.application.version>1</gae.application.version>
 
@@ -30,15 +30,15 @@
 
 	<dependencies>
 		<!-- Google Web Toolkit (GWT) -->
-
+		<!-- 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwtVersion}</version>
-			<!-- "provided" so that we don't deploy -->
 			<scope>provided</scope>
 		</dependency>
-
+		 -->
+		 
 		<!-- GWT projects do not usually need a dependency on gwt-dev, but MobileWebApp 
 			contains a GWTC Linker (AppCacheLinker) which in turn depends on internals 
 			of the GWT compiler. -->
@@ -238,6 +238,7 @@
 				its service interfaces so that RequestFactoryServer can decode client requests. 
 				Normally you would just have a dependency on requestfactory-apt with <scope>provided</scope>, 
 				but that won't work in eclipse due to m2e bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=335036 -->
+			<!-- 
 			<plugin>
 				<groupId>org.bsc.maven</groupId>
 				<artifactId>maven-processor-plugin</artifactId>
@@ -259,6 +260,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			 -->
 
 			<!-- Google Plugin for Eclipse (GPE) won't see the source generated above 
 				by requestfactory-apt unless it is exposed as an additional source dir -->
@@ -285,10 +287,16 @@
 
 			<!-- Google App Engine plugin -->
 			<!-- Add source folders to test classpath in order to run gwt-tests as 
-				normal junit-tests --><plugin>
+				normal junit-tests -->
+			<plugin>
 				<groupId>net.kindleit</groupId>
 				<artifactId>maven-gae-plugin</artifactId>
 				<version>0.9.3</version>
+				<configuration>
+                    <serverId>appengine.google.com</serverId>
+                    <sdkDir>${appengine.sdk.root}</sdkDir>
+                    <appDir>${basedir}/target/seo-on-1.0-SNAPSHOT</appDir>
+                </configuration>
 				<dependencies>
 					<dependency>
 						<groupId>net.kindleit</groupId>
