@@ -90,8 +90,11 @@
 		</dependency>
 
 		<!-- Google App Engine (GAE) -->
-		<!-- <dependency> <groupId>com.google.appengine</groupId> <artifactId>appengine-api-1.0-sdk</artifactId> 
-			<version>${gae.version}</version> </dependency> -->
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId> 
+			<version>${gae.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-testing</artifactId>
@@ -145,6 +148,26 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- apache -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.3</version>
+		</dependency>
+		
+		<!-- spring upload for gae -->
+		<dependency>
+	        <groupId>gmultipart</groupId>
+	        <artifactId>gmultipart</artifactId>
+	        <version>0.4</version>
+	    </dependency>		
 		
 		<!-- Spring -->
 		<dependency>
