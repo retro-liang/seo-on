@@ -64,7 +64,7 @@ $(function() {
 		unique_names : true,
 
 		// Resize images on clientside if we can
-		resize : {width : 320, height : 240, quality : 90},
+		//resize : {width : 320, height : 240, quality : 90},
 
 		// Specify what files to browse for
 		filters : [
@@ -76,25 +76,56 @@ $(function() {
 		flash_swf_url : '/js/plupload/plupload.flash.swf',
 
 		// Silverlight settings
-		silverlight_xap_url : '/js/plupload/plupload.silverlight.xap'
+		silverlight_xap_url : '/js/plupload/plupload.silverlight.xap',
+		
+		init : {
+			FileUploaded: function(up, file, info) {
+				// Called when a file has finished uploading
+				var key = new String(info.response);
+				var fileKeys = $('#fileKeys').val();
+				if(fileKeys == "")
+				{
+					$('#fileKeys').val(key);
+				}
+				else
+				{
+					$('#fileKeys').val(fileKeys + "," + key);
+				}
+				$("#seoButton").css("visibility","visible");
+			}
+		}
 	});
-
+	
+	
 	// Client side form validation
-	$('form').submit(function(e) {
-        var uploader = $('#uploader').pluploadQueue();
+	$('#seoButton').click(function(e)
+	{
+		var uploader = $('#uploader').pluploadQueue();
 
         // Files in queue upload them first
-        if (uploader.files.length > 0) {
-            // When all files are uploaded submit form
-            uploader.bind('StateChanged', function() {
-                if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed)) {
-                    $('form')[0].submit();
-                }
-            });
-                
-            uploader.start();
-        } else {
-            alert('You must queue at least one file.');
+        if (uploader.files.length > 0)
+        {
+			if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed))
+			{
+             	var fileKeys = $("#fileKeys").val();
+				$.ajax
+				({
+					type: "POST",
+					url: "/spring/seo-image",
+					data: {fileKeys: fileKeys},
+					success: function(data)
+					{ 
+						alert(data);
+						$("#seoedImage").attr('href',data);
+						$("#seoedImage").css("visibility","visible");
+						uploader.start();
+					}
+				});
+			}
+		}
+        else
+        {
+			alert('You must queue at least one file.');
         }
 
         return false;
@@ -107,12 +138,40 @@ $(function() {
     <table align="center">
       <tr>
         <td>
-        	<form>
-				<div id="uploader">
-					<p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p>
-				</div>
-			</form>
-        </td>        
+       		<div id="uploader">
+				<p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p>
+			</div>
+			
+			<br style="clear: both" />
+			<input type="hidden" id="fileKeys" name="fileKeys" />
+			
+        </td>
+      </tr>
+      <tr>
+      	<td>
+      		<div id="seoButton" style="visibility:hidden;position: relative;">
+      			<div class="plupload_wrapper plupload_scroll">
+      				<div class="plupload_container" id="uploader_container" title="Using runtime: flash">
+      					<div class="plupload">
+      						<div class="plupload_header">
+      							<div class="plupload_header_content">
+      								<div class="plupload_header_title">
+      									<div class="plupload_buttons">
+      										<a>SEO Image</a>
+      									</div>
+      								</div>
+      							</div>
+      						</div>
+      					</div>
+      				</div>
+      			</div>
+      		</div>
+      	</td>
+      </tr>
+      <tr>
+      	<td>
+      		<a id="seoedImage" href="#" target="_blank" style="visibility:hidden;">SEOed Image</a>
+      	</td>
       </tr>
     </table>
   </body>
