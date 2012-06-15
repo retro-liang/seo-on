@@ -91,7 +91,7 @@ $(function() {
 				{
 					$('#fileKeys').val(fileKeys + "," + key);
 				}
-				$("#seoButton").css("visibility","visible");
+				$("#seoButton").css("display","");
 			}
 		}
 	});
@@ -114,10 +114,12 @@ $(function() {
 					url: "/spring/seo-image",
 					data: {fileKeys: fileKeys},
 					success: function(data)
-					{ 
-						alert(data);
+					{
+						$("#seoButton").css("display","none");
 						$("#seoedImage").attr('href',data);
-						$("#seoedImage").css("visibility","visible");
+						$("#seoedImage").css("display","");
+						$("#preview").attr('src',data);
+						$("#reSeoImage").css("display","");
 						uploader.start();
 					}
 				});
@@ -133,7 +135,11 @@ $(function() {
 });
 </script>
 
-    <h1></h1>
+    <div id="top" style="background: none repeat scroll 0 0 #3B3B3B;margin-bottom: 20px;padding: 10px 0;">
+    	<div class="container" style="width: 630px;margin: 0 auto;">
+			<h1 style="color: #BCBCBC;font-size: 16px;font-weight: bold;margin-bottom: 20px;text-shadow: 1px 1px 0 #3D3D3D;">+ SEO-on</h1>	
+		</div>
+    </div>
 
     <table align="center">
       <tr>
@@ -149,31 +155,37 @@ $(function() {
       </tr>
       <tr>
       	<td>
-      		<div id="seoButton" style="visibility:hidden;position: relative;">
-      			<div class="plupload_wrapper plupload_scroll">
-      				<div class="plupload_container" id="uploader_container" title="Using runtime: flash">
-      					<div class="plupload">
-      						<div class="plupload_header">
-      							<div class="plupload_header_content">
-      								<div class="plupload_header_title">
-      									<div class="plupload_buttons">
-      										<a>SEO Image</a>
-      									</div>
-      								</div>
-      							</div>
-      						</div>
-      					</div>
-      				</div>
-      			</div>
-      		</div>
+      		<a id="seoButton" href="#" class="plupload_button plupload_add" style="display:none;">SEO images</a>
+      		<a id="seoedImage" href="#" target="_blank" class="plupload_button plupload_add" style="display:none;">Check seoed image</a>
+      		<a id="reSeoImage" href="/" class="plupload_button plupload_add" style="display:none;">SEO other images</a>
       	</td>
       </tr>
       <tr>
       	<td>
-      		<a id="seoedImage" href="#" target="_blank" style="visibility:hidden;">SEOed Image</a>
+      		<img id="preview" style="display:none;" />
       	</td>
       </tr>
     </table>
+    
+    <div id="footer" style="height:400px;background: url('/img/footer-bg.jpg') repeat-x scroll left top transparent;">
+    	<div id="footer-links" style="line-height: 18px;">
+	    	<div class="container" style="width: 950px;color: #8B8B8B;font-size: 11px;margin: 0 auto;">
+				<div class="column column-wide" style="background: none repeat scroll 0 0 transparent;padding-left: 0;width: auto;padding-top: 23px;">
+					<h2 style="color: #BCBCBC;font-size: 16px;font-weight: normal;margin-bottom: 20px;text-shadow: 1px 1px 0 #3D3D3D;">About SEO-on</h2>
+					<p style="color: #BCBCBC;font-size: 12px;text-shadow: 1px 1px 0 #3D3D3D;">SEO-on is a online utility that helps optimize the webiste in terms of search engine optimization.</p>
+					<br />
+				</div>
+				<div class="column column-narrow" style="padding-left: 18px;padding-top: 23px;width: auto;">
+					<h2 style="color: #BCBCBC;font-size: 16px;font-weight: normal;margin-bottom: 20px;text-shadow: 1px 1px 0 #3D3D3D;">Customer Services</h2>
+					<ul>
+						<li class="video-platform first">
+							<a href="mailto:contact@rapplz.com" style="color: #BCBCBC;font-size: 12px;text-shadow: 1px 1px 0 #3D3D3D;">Contact Us</a>
+						</li>
+					</ul>
+				</div>
+	    	</div>
+	    </div>
+    </div>
   </body>
   
 
