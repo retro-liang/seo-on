@@ -32,6 +32,8 @@ public class ImageSEOService
 	private ImagesService imagesService = ImagesServiceFactory.getImagesService();
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 	
+	private String css = "";
+	
 	public String uploadFile(MultipartFile file) throws IOException
 	{
 		Image image = ImagesServiceFactory.makeImage(file.getBytes());
@@ -57,9 +59,9 @@ public class ImageSEOService
             BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
             byte[] bytes = blobstoreService.fetchData(blobKey, 0, blobInfo.getSize());
             Image image = ImagesServiceFactory.makeImage(bytes);
-        	logger.info("found image: " + image.getImageData());
         	Composite composite = ImagesServiceFactory.makeComposite(image, 0, newImageHeight, 1, anchor);
         	composites.add(composite);
+        	css += "{width:" + image.getWidth() + "px; left:0px; background-position:0 -" + image.getHeight() + "px;}";
         	newImageLength = image.getWidth() > newImageLength ? image.getWidth() : newImageLength;
         	newImageHeight += image.getHeight();
         }
@@ -69,6 +71,11 @@ public class ImageSEOService
         BlobKey key = saveFile(newImage);
 		logger.info("seoed image key: " + key.getKeyString());
 		return key;
+	}
+	
+	public String getSeoedCss()
+	{
+		return css;
 	}
 	
 	public BlobKey saveFile(Image image) throws IOException

@@ -24,6 +24,20 @@
     <!-- be added before this line.                -->
     <!--                                           -->
     <!-- <script type="text/javascript" language="javascript" src="helloworld/helloworld.nocache.js"></script> -->
+    
+    <script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-32804707-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>
   </head>
 
   <!--                                           -->
@@ -107,6 +121,8 @@ $(function() {
         {
 			if (uploader.files.length === (uploader.total.uploaded + uploader.total.failed))
 			{
+				$("#seoButton").css("display","none");
+				$("#seoingImage").css("display","");
              	var fileKeys = $("#fileKeys").val();
 				$.ajax
 				({
@@ -115,12 +131,23 @@ $(function() {
 					data: {fileKeys: fileKeys},
 					success: function(data)
 					{
-						$("#seoButton").css("display","none");
-						$("#seoedImage").attr('href',data);
+						$("#seoingImage").css("display","none");
+						$("#seoedImage").attr('href',data.imageKey);
+						//$("#seoedCss").attr('href',data.imageKey);
 						$("#seoedImage").css("display","");
-						$("#preview").attr('src',data);
+						//$("#seoedCss").css("display","");
+						$("#imagePreview").css("display","");
+						$("#cssPreview").css("display","");
+						$("#previewImage").attr('src',data.imageKey);
+						$("#previewCss").html(data.cssKey.replace(/}/g,"}<br />"));
 						$("#reSeoImage").css("display","");
 						uploader.start();
+					},
+					error: function(request, status, error)
+					{
+						alert("Oops, something wrong, please refresh the page and start over (" + status + ")-" + error);
+						$("#seoingImage").css("display","none");
+						$("#reSeoImage").css("display","");
 					}
 				});
 			}
@@ -136,12 +163,17 @@ $(function() {
 </script>
 
     <div id="top" style="background: none repeat scroll 0 0 #3B3B3B;margin-bottom: 20px;padding: 10px 0;">
-    	<div class="container" style="width: 630px;margin: 0 auto;">
-			<h1 style="color: #BCBCBC;font-size: 16px;font-weight: bold;margin-bottom: 20px;text-shadow: 1px 1px 0 #3D3D3D;">+ SEO-on</h1>	
+    	<div class="container" style="width: 950px;margin: 0 auto;">
+    		<a href="/"><img src="/img/seo-on.gif" border="0" /></a>
 		</div>
     </div>
 
     <table align="center">
+    	<tr>
+    		<td>
+    			<h3>Sprite Image Generator: </h3>
+    		</td>
+    	</tr>
       <tr>
         <td>
        		<div id="uploader">
@@ -154,15 +186,50 @@ $(function() {
         </td>
       </tr>
       <tr>
+    		<td>
+    			<p>Note: Currently we only support maximum 16 pictures in one single SEO processing.</p>
+    		</td>
+    	</tr>
+      <tr>
       	<td>
       		<a id="seoButton" href="#" class="plupload_button plupload_add" style="display:none;">SEO images</a>
       		<a id="seoedImage" href="#" target="_blank" class="plupload_button plupload_add" style="display:none;">Check seoed image</a>
+      		<a id="seoedCss" href="#" target="_blank" class="plupload_button plupload_add" style="display:none;">Check seoed css</a>
       		<a id="reSeoImage" href="/" class="plupload_button plupload_add" style="display:none;">SEO other images</a>
+      		<span id="seoingImage" style="display:none;"><img src="/img/loading.gif" /> SEOing images, please wait...</span>
+      		<br style="clear: both" />
       	</td>
       </tr>
       <tr>
       	<td>
-      		<img id="preview" style="display:none;" />
+      		<div id="imagePreview" class="plupload_wrapper plupload_scroll" style="display:none;">
+				<div id="uploader_container" class="plupload_container" title="Using runtime: flash">
+					<div class="plupload">
+						<div class="plupload_content">
+							<div class="plupload_filelist_header">
+								<div><b>SEOed image preview</b></div>
+								<img id="previewImage" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+      	</td>
+      </tr>
+      <tr>
+      	<td>
+      		<div id="cssPreview" class="plupload_wrapper plupload_scroll" style="display:none;">
+				<div id="uploader_container" class="plupload_container" title="Using runtime: flash">
+					<div class="plupload">
+						<div class="plupload_content">
+							<div class="plupload_filelist_header">
+								<div><b>SEOed css preview</b></div>
+								<p id="previewCss"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
       	</td>
       </tr>
     </table>
@@ -172,7 +239,7 @@ $(function() {
 	    	<div class="container" style="width: 950px;color: #8B8B8B;font-size: 11px;margin: 0 auto;">
 				<div class="column column-wide" style="background: none repeat scroll 0 0 transparent;padding-left: 0;width: auto;padding-top: 23px;">
 					<h2 style="color: #BCBCBC;font-size: 16px;font-weight: normal;margin-bottom: 20px;text-shadow: 1px 1px 0 #3D3D3D;">About SEO-on</h2>
-					<p style="color: #BCBCBC;font-size: 12px;text-shadow: 1px 1px 0 #3D3D3D;">SEO-on is a online utility that helps optimize the webiste in terms of search engine optimization.</p>
+					<p style="color: #BCBCBC;font-size: 12px;text-shadow: 1px 1px 0 #3D3D3D;">SEO-on is an online service that consists a set of utilities aiming to help optimize webistes in terms of search engine optimization.</p>
 					<br />
 				</div>
 				<div class="column column-narrow" style="padding-left: 18px;padding-top: 23px;width: auto;">

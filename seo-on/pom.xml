@@ -210,6 +210,13 @@
 			<artifactId>spring-orm</artifactId>
 			<version>3.1.1.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

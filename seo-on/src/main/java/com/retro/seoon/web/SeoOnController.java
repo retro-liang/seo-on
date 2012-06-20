@@ -1,7 +1,7 @@
 package com.retro.seoon.web;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -9,13 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
@@ -72,18 +70,25 @@ public class SeoOnController
 	
 	@RequestMapping("seo-image")
 	@ResponseBody
-    public String seoImage(@RequestParam("fileKeys") String fileKeys, HttpServletRequest request, HttpServletResponse response)
+    public SEOResult seoImage(@RequestParam("fileKeys") String fileKeys, HttpServletRequest request, HttpServletResponse response)
 	{
 		logger.info("keyNames: " + fileKeys);
 		String[] keyNames = fileKeys.split(",");
 		try
 		{
-			String seoedImageKey = new ImageSEOService().seoImage(keyNames).getKeyString();
-			return "/spring/image?blob-key=" + seoedImageKey;
+			ImageSEOService imageSeoService = new ImageSEOService();
+			SEOResult seoResult = new SEOResult();
+			
+			String seoedImageKey = imageSeoService.seoImage(keyNames).getKeyString();
+			
+			seoResult.setImageKey("/spring/image?blob-key=" + seoedImageKey);
+			seoResult.setCssKey(imageSeoService.getSeoedCss());
+			
+			return seoResult;
 		}
 		catch (IOException e)
 		{
-			return "";
+			return null;
 		}
     }
 }
